@@ -1,0 +1,72 @@
+@font-face {
+  font-family: "iconfont"; /* Project id  */
+  src: url('iconfont.ttf?t=1688716080930') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-numeric:before {
+  content: "\e814";
+}
+
+.icon-navicon-jldwz:before {
+  content: "\e668";
+}
+
+.icon-password:before {
+  content: "\e62e";
+}
+
+.icon-department:before {
+  content: "\e752";
+}
+
+.icon-type:before {
+  content: "\e6c0";
+}
+
+.icon-money:before{
+  content: "\e7d1";
+}
+
+.icon-varmoney:before{
+  content: "\e609";
+}
+
+.icon-bill:before{
+  content: "\e89e";
+}
+
+.icon-desktop-substation:before{
+  content: "\e730";
+}
+.icon-desktop-order:before{
+  content: "\e603";
+}
+.icon-desktop-profit:before{
+  content: "\e665";
+}
+.icon-desktop-motor:before{
+  content: "\e667";
+}
+.icon-desktop-transport:before{
+  content: "\e635";
+}
+.icon-desktop-rank:before{
+  content: "\e607";
+}
+.icon-desktop-area:before{
+  content: "\e608";
+}
+.icon-desktop-staff:before{
+  content: "\e604";
+}
+.icon-statistic:before{
+  content: "\e624";
+}

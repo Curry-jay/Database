@@ -1,0 +1,39 @@
+/* 公共样式 */
+
+/* 解决高度塌陷的问题 外边距重叠问题*/
+.clearfix::before,
+.clearfix::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+/* 设置页面的字体 */
+body {
+  /* 设置字体样式和字体颜色 */
+  font: 14px/1.5 Helvetica Neue, Helvetica, Arial, Microsoft Yahei, Hiragino Sans GB, Heiti SC, WenQuanYi Micro Hei, sans-serif;
+  color: #333;
+
+  /* 设置最小的body宽度，因为如果不设置最小的宽度，随着页面拉伸，body变小，会导致里面的子元素的溢出等问题出现 */
+  min-width: 1426px;
+  height: 100%;
+}
+
+/* 设置网页的整体宽度，大致宽度一般网页都是固定的 */
+.w {
+  /* 固定容器宽度 */
+  width: 1226px;
+  /* 设置容器居中 */
+  margin: 0 auto;
+}
+
+/* 设置a的颜色 */
+a {
+  text-decoration: none;
+  color: #333;
+}
