@@ -1,5 +1,6 @@
 package com.example.webback;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
@@ -9,6 +10,7 @@ import org.springframework.util.unit.DataSize;
 import javax.servlet.MultipartConfigElement;
 
 @SpringBootApplication
+@MapperScan("com.example.webback.mapper")
 public class WebBackApplication {
 
     public static void main(String[] args) {

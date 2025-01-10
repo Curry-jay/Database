@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.webback.mapper.PictureMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.webback.pojo.Picture">
+            <id property="id" column="id" />
+            <result property="headline" column="headline" />
+            <result property="saveTime" column="save_time" />
+            <result property="recognitionPercentage" column="recognition_percentage" />
+            <result property="path" column="path" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,headline,save_time,recognition_percentage,path
+    </sql>
+</mapper>
