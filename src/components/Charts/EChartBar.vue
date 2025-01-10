@@ -25,11 +25,11 @@ export default {
   },
   methods: {
     initChart() {
-      // ³õÊ¼»¯Í¼±íÊµÀı
+      // åˆå§‹åŒ–å›¾è¡¨å®ä¾‹
       const chartDom = this.$refs.chartContainer;
       this.myChart = echarts.init(chartDom);
 
-      // ÉèÖÃÍ¼±íµÄÅäÖÃÏî
+      // è®¾ç½®å›¾è¡¨çš„é…ç½®é¡¹
       this.option = {
         tooltip: {
           trigger: 'axis',
@@ -49,12 +49,12 @@ export default {
         },
         yAxis: {
           type: 'category',
-          data: this.categories // ´Ó¸¸×é¼ş´«µİ½øÀ´µÄÀà±ğ
+          data: this.categories // ä»çˆ¶ç»„ä»¶ä¼ é€’è¿›æ¥çš„ç±»åˆ«
         },
-        series: this.chartData // ´Ó¸¸×é¼ş´«µİ½øÀ´µÄÊı¾İ
+        series: this.chartData // ä»çˆ¶ç»„ä»¶ä¼ é€’è¿›æ¥çš„æ•°æ®
       };
 
-      // Ê¹ÓÃ¸ÕÖ¸¶¨µÄÅäÖÃÏîºÍÊı¾İÏÔÊ¾Í¼±í
+      // ä½¿ç”¨åˆšæŒ‡å®šçš„é…ç½®é¡¹å’Œæ•°æ®æ˜¾ç¤ºå›¾è¡¨
       this.myChart.setOption(this.option);
     }
   },
@@ -67,12 +67,12 @@ export default {
   },
   beforeDestroy() {
     if (this.myChart) {
-      this.myChart.dispose(); // Ïú»ÙÍ¼±íÊµÀı
+      this.myChart.dispose(); // é”€æ¯å›¾è¡¨å®ä¾‹
     }
   }
 };
 </script>
 
 <style scoped>
-/* ¿ÉÒÔ¸ù¾İĞèÒªÌí¼ÓÑùÊ½ */
+/* å¯ä»¥æ ¹æ®éœ€è¦æ·»åŠ æ ·å¼ */
 </style>

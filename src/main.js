@@ -30,12 +30,15 @@ import VideoPlayer from 'vue-video-player'
 import 'vue-video-player/src/custom-theme.css'
 import 'video.js/dist/video-js.css'
 
-const SERVER_URL = 'http://127.0.0.1:8888';
+const SERVER_URL =  'http://127.0.0.1:8888/';
 
 // 挂载到 Vue 原型上，所有组件都可以通过 this.$serverUrl 访问
 Vue.prototype.$serverUrl = SERVER_URL;
 
 Vue.use(VideoPlayer)
+
+
+
 
 
 new Vue({

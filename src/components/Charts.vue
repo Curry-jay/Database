@@ -34,7 +34,7 @@
         <el-card shadow="hover" style="width: 100%">
           <el-carousel :interval="4000" type="card" height="200px">
             <el-carousel-item v-for="(item, index) in imgList" :key="index">
-              <el-image :src="item.image"></el-image>
+              <el-image :src="item.image" fit="fill"></el-image>
             </el-carousel-item>
           </el-carousel>
         </el-card>
@@ -54,16 +54,12 @@
       <el-row style="width: 100%" type="flex" justify="center">
         <el-col>
           <el-card shadow="hover">
-            <el-statistic
-              group-separator=","
-              :value="firstNum"
-              :title="firstTitle"
-            >
+            <el-statistic group-separator="," :value="5" title="文本数量">
               <template slot="prefix">
-                <i class="el-icon-bottom" style="color: red"></i>
+                <i class="el-icon-s-flag" style="color: green"></i>
               </template>
               <template slot="suffix">
-                <i class="el-icon-bottom" style="color: red"></i>
+                <i class="el-icon-s-flag" style="color: green"></i>
               </template>
             </el-statistic>
           </el-card>
@@ -71,16 +67,12 @@
 
         <el-col>
           <el-card shadow="hover">
-            <el-statistic
-              group-separator=","
-              :value="firstNum"
-              :title="firstTitle"
-            >
+            <el-statistic group-separator="," :value="4" title="图片数量">
               <template slot="prefix">
-                <i class="el-icon-bottom" style="color: red"></i>
+                <i class="el-icon-s-flag" style="color: green"></i>
               </template>
               <template slot="suffix">
-                <i class="el-icon-bottom" style="color: red"></i>
+                <i class="el-icon-s-flag" style="color: green"></i>
               </template>
             </el-statistic>
           </el-card>
@@ -88,16 +80,12 @@
 
         <el-col>
           <el-card shadow="hover">
-            <el-statistic
-              group-separator=","
-              :value="firstNum"
-              :title="firstTitle"
-            >
+            <el-statistic group-separator="," :value="5" title="语音数量">
               <template slot="prefix">
-                <i class="el-icon-bottom" style="color: red"></i>
+                <i class="el-icon-s-flag" style="color: green"></i>
               </template>
               <template slot="suffix">
-                <i class="el-icon-bottom" style="color: red"></i>
+                <i class="el-icon-s-flag" style="color: green"></i>
               </template>
             </el-statistic>
           </el-card>
@@ -105,16 +93,12 @@
 
         <el-col>
           <el-card shadow="hover">
-            <el-statistic
-              group-separator=","
-              :value="firstNum"
-              :title="firstTitle"
-            >
+            <el-statistic group-separator="," :value="4" title="视频数量">
               <template slot="prefix">
-                <i class="el-icon-bottom" style="color: red"></i>
+                <i class="el-icon-s-flag" style="color: green"></i>
               </template>
               <template slot="suffix">
-                <i class="el-icon-bottom" style="color: red"></i>
+                <i class="el-icon-s-flag" style="color: green"></i>
               </template>
             </el-statistic>
           </el-card>
@@ -132,7 +116,7 @@
                 >数量排行榜</span
               ></el-divider
             >
-            <EChartBar :chartData="chartData" :categories="categories" />
+              <EChartBar :chartData="chartData" :categories="categories" />
           </el-card>
         </el-col>
         <!-- ************************************************************************ -->
@@ -144,63 +128,38 @@
                 >数量排行榜</span
               ></el-divider
             >
-            <EChartBar :chartData="chartData" :categories="categories" />
+            <EChartBar2  :chartData="chartData" :categories="categories"/>
           </el-card>
         </el-col>
       </el-row>
-      <!-- ************************************************************************ -->
-      <el-row style="width: 100%" type="flex" justify="center">
-        <el-col>
-          <el-card shadow="hover">
-            <el-divider content-position="center"
-              ><i class="iconfont icon-desktop-rank"></i>
-              <span style="font-size: 20px; margin-left: 10px"
-                >数量排行榜</span
-              ></el-divider
-            >
-            <EChartBar :chartData="chartData" :categories="categories" />
-          </el-card>
-        </el-col>
-        <!-- ************************************************************************ -->
-        <el-col>
-          <el-card shadow="hover">
-            <el-divider content-position="center"
-              ><i class="iconfont icon-desktop-rank"></i>
-              <span style="font-size: 20px; margin-left: 10px"
-                >数量排行榜</span
-              ></el-divider
-            >
-            <EChartBar :chartData="chartData" :categories="categories" />
-          </el-card>
-        </el-col>
-      </el-row>
+      
     </div>
   </div>
 </template>
 
 <script>
 import EChartBar from "./Charts/EChartBar.vue";
-
+import EChartBar2 from "./Charts/EChartBar2.vue";
 export default {
   components: {
-    EChartBar,
+    EChartBar,EChartBar2
   },
   data() {
     return {
       testurl:
         "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
       imgList: [
-        { image: require("../assets/image/ai.jpg") },
-        { image: require("../assets/image/ai.jpg") },
-        { image: require("../assets/image/ai.jpg") },
-        { image: require("../assets/image/ai.jpg") },
-        { image: require("../assets/image/ai.jpg") },
+        { image: require("../assets/image/1.jpg") },
+        { image: require("../assets/image/2.jpg") },
+        { image: require("../assets/image/3.jpg") },
+        { image: require("../assets/image/4.jpg") },
+        { image: require("../assets/image/5.jpg") },
       ],
       firstNum: 123123123,
       firstTitle: "第一个统计数据",
 
       // 第一个表格卡片
-      categories: ["文本数据", "视频数据", "图片数据", "语音数据"],
+      categories: ["文本数据", "图片数据", "语音数据", "视频数据"],
       chartData: [
         {
           name: "检测的",
@@ -208,7 +167,7 @@ export default {
           stack: "total",
           label: { show: true },
           emphasis: { focus: "series" },
-          data: [320, 302, 301, 334, 390, 330, 320],
+          data: [3, 3, 4, 4],
         },
         {
           name: "未检测的",
@@ -216,9 +175,8 @@ export default {
           stack: "total",
           label: { show: true },
           emphasis: { focus: "series" },
-          data: [120, 132, 101, 134, 90, 230, 210],
+          data: [2, 1, 1, 1],
         },
-        
       ],
       // 第二个表格卡片
 

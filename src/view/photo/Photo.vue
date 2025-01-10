@@ -11,47 +11,17 @@
         style="font-weight: bold"
       >
         <el-row style="margin-bottom: 0px">
-          <el-form-item label="手机号码" prop="phone">
+          <el-form-item label="图片名称" prop="headline">
             <el-input
-              v-model="queryParams.phone"
-              placeholder="请输入手机号码关键字"
+              v-model="queryParams.headline"
+              placeholder="请输入图片名称关键字"
               clearable
               style="width: 240px"
               @keyup.enter.native="handleQuery"
             />
           </el-form-item>
 
-          <el-form-item label="地址" prop="address">
-            <el-input
-              v-model="queryParams.address"
-              placeholder="请输入地址关键字"
-              clearable
-              style="width: 240px"
-              @keyup.enter.native="handleQuery"
-            />
-          </el-form-item>
-
-          <el-form-item label="邮箱" prop="email">
-            <el-input
-              v-model="queryParams.email"
-              placeholder="请输入邮箱关键字"
-              clearable
-              style="width: 240px"
-              @keyup.enter.native="handleQuery"
-            />
-          </el-form-item>
-
-          <el-form-item label="姓名" prop="name">
-            <el-input
-              v-model="queryParams.name"
-              placeholder="请输入姓名关键字"
-              clearable
-              style="width: 240px"
-              @keyup.enter.native="handleQuery"
-            />
-          </el-form-item>
-
-          <el-form-item label="时间" prop="time">
+          <el-form-item label="时间" prop="saveTime">
             <el-date-picker
               v-model="timespan"
               @change="getTime"
@@ -164,13 +134,13 @@
             :rules="FormRules"
           >
             <el-form-item
-              label="语音标题"
+              label="图片标题"
               :style="{ 'margin-left': isEdit ? '30px' : '30px' }"
-              prop="title"
+              prop="headline"
             >
               <el-input
                 clearable
-                v-model="addFormData.title"
+                v-model="addFormData.headline"
                 autocomplete="off"
                 style="width: 400px"
               ></el-input>
@@ -179,17 +149,18 @@
             <el-form-item
               label="保存时间"
               :style="{ 'margin-left': isEdit ? '30px' : '30px' }"
-              prop="time"
+              prop="saveTime"
             >
               <el-date-picker
                 clearable
-                v-model="addFormData.time"
+                v-model="addFormData.saveTime"
                 type="datetime"
                 placeholder="选择保存时间"
                 align="right"
                 :picker-options="pickerOptions"
                 style="width: 400px"
                 autocomplete="off"
+                value-format="yyyy-MM-dd HH:mm:ss"
               >
               </el-date-picker>
             </el-form-item>
@@ -197,12 +168,15 @@
             <el-form-item
               label="识别大模型"
               :style="{ 'margin-left': isEdit ? '30px' : '30px' }"
-              prop="identify"
+              prop="recognitionPercentage"
             >
               <el-input
-                v-if="addFormData.identify && addFormData.identify !== ''"
+                v-if="
+                  addFormData.recognitionPercentage &&
+                  addFormData.recognitionPercentage !== ''
+                "
                 clearable
-                v-model="addFormData.identify"
+                v-model="addFormData.recognitionPercentage"
                 :disabled="isEdit"
                 autocomplete="off"
                 style="width: 400px"
@@ -210,7 +184,7 @@
               <el-input
                 v-else
                 clearable
-                v-model="addFormData.identify"
+                v-model="addFormData.recognitionPercentage"
                 :disabled="true"
                 autocomplete="off"
                 style="width: 400px"
@@ -248,7 +222,7 @@
             <el-form-item
               label="上传图片文件"
               :style="{ 'margin-left': isEdit ? '30px' : '30px' }"
-              prop="url"
+              prop="path"
             >
               <photo-upload
                 @upload-success="handleUploadSuccess"
@@ -297,7 +271,7 @@
                       class="pro-name"
                       ><el-tag style="font-size: 16px">图片描述</el-tag
                       ><span style="margin-left: 20px">{{
-                        scope.row.title
+                        scope.row.headline
                       }}</span></span
                     >
                   </el-col>
@@ -309,7 +283,7 @@
                   <el-col :span="3">
                     <div class="pro-name">
                       <i class="el-icon-time"></i>
-                      <span>{{ scope.row.time }}</span
+                      <span>{{ scope.row.saveTime }}</span
                       >:
                     </div>
                   </el-col>
@@ -318,11 +292,13 @@
                     <div class="pro-name" align="center">
                       <el-tag style="font-size: 16px">识别大模型</el-tag>
                       <span style="margin-left: 5px">
-                        <el-tag v-if="scope.row.identify === null" type="danger"
+                        <el-tag
+                          v-if="scope.row.recognitionPercentage === null"
+                          type="danger"
                           >待检测</el-tag
                         >
                         <el-tag v-else type="success">
-                          {{ scope.row.identify }}</el-tag
+                          {{ scope.row.recognitionPercentage }}</el-tag
                         >
                       </span>
                     </div>
@@ -332,13 +308,13 @@
 
               <el-divider>
                 <div
-                  v-if="scope.row.url != null"
+                  v-if="scope.row.path != null"
                   style="color: #67c23a; font-size: 16px"
                 >
                   <i class="el-icon-caret-bottom">图片展示</i>
                 </div>
                 <div
-                  v-if="scope.row.url === null"
+                  v-if="scope.row.path === null"
                   style="color: #f56c6c; font-size: 16px"
                 >
                   <i class="el-icon-error" style="font-color: #f56c6c"
@@ -356,10 +332,10 @@
                   <div class="pro-name">
                     <el-image
                       style="width: 100%; vertical-align: middle"
-                      :src="`${$serverUrl}/photo/${scope.row.url}`"
+                      :src="`${$serverUrl}/photo/${scope.row.path}`"
                       fit="fill"
                       :preview-src-list="[
-                        `${$serverUrl}/photo/${scope.row.url}`,
+                        `${$serverUrl}/photo/${scope.row.path}`,
                       ]"
                       @error="handlePhotoError(scope.row)"
                     >
@@ -385,45 +361,49 @@
       <el-table-column type="selection" width="55"> </el-table-column>
 
       <el-table-column
-        label="语音文件标题"
-        key="title"
-        prop="title"
+        label="图片标题"
+        key="headline"
+        prop="headline"
         v-if="columns[0].visible"
         :show-overflow-tooltip="true"
       >
         <template slot-scope="scope">
           <i class="el-icon-user"></i>
-          <span style="margin-left: 5px">{{ scope.row.title }}</span>
+          <span style="margin-left: 5px">{{ scope.row.headline }}</span>
         </template>
       </el-table-column>
 
       <el-table-column
         label="保存时间"
-        key="time"
-        prop="time"
+        key="saveTime"
+        prop="saveTime"
         v-if="columns[1].visible"
         :show-overflow-tooltip="true"
       >
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
-          <span style="margin-left: 5px">{{ scope.row.time }}</span>
+          <span style="margin-left: 5px">{{ scope.row.saveTime }}</span>
         </template>
       </el-table-column>
 
       <el-table-column
         label="识别大模型"
-        key="identify"
-        prop="identify"
+        key="recognitionPercentage"
+        prop="recognitionPercentage"
         v-if="columns[2].visible"
         :show-overflow-tooltip="true"
       >
         <template slot-scope="scope">
           <i class="el-icon-s-flag"></i>
           <span style="margin-left: 5px">
-            <el-tag v-if="scope.row.identify === null" type="danger"
+            <el-tag
+              v-if="scope.row.recognitionPercentage === null"
+              type="danger"
               >待检测</el-tag
             >
-            <el-tag v-else type="success"> {{ scope.row.identify }}</el-tag>
+            <el-tag v-else type="success">
+              {{ scope.row.recognitionPercentage }}</el-tag
+            >
           </span>
         </template>
       </el-table-column>
@@ -524,10 +504,11 @@ export default {
       tableData: [],
       //新增表单
       addFormData: {
-        title: "", //title
-        time: "", //time
-        identify: "", //识别大模型
-        url: "",
+        id: "",
+        headline: "", //headline
+        saveTime: "", //saveTime
+        recognitionPercentage: "", //识别大模型
+        path: "",
         newUrl: "", //上传的图片临时地址
       },
       isEdit: false,
@@ -541,11 +522,7 @@ export default {
       queryParams: {
         pageNow: 1, //当前页
         pageSize: 10, //页面含量
-        address: "", //地址
-        email: "", //email
-        phone: "", //电话
-        name: "", //姓名
-        idCard: "", //身份证
+        headline: "", //地址
         startTime: "", //上限时间
         endTime: "", //下限时间
       },
@@ -587,9 +564,13 @@ export default {
       },
       //  表单验证
       FormRules: {
-        title: [{ required: true, message: "请输入语音标题", trigger: "blur" }],
-        time: [{ required: true, message: "请填写保存时间", trigger: "blur" }],
-        url: [{ required: true, message: "请上传语音文件", trigger: "blur" }],
+        headline: [
+          { required: true, message: "请输入语音标题", trigger: "blur" },
+        ],
+        saveTime: [
+          { required: true, message: "请填写保存时间", trigger: "blur" },
+        ],
+        path: [{ required: true, message: "请上传图片文件", trigger: "blur" }],
       },
     };
   },
@@ -614,7 +595,7 @@ export default {
           if (
             this.addFormData.newUrl != "" &&
             this.addFormData.newUrl != null &&
-            this.addFormData.newUrl !== this.addFormData.url
+            this.addFormData.newUrl !== this.addFormData.path
           ) {
             this.$http
               .delete("/photo/delete", {
@@ -628,6 +609,13 @@ export default {
           this.addFormVisible = false;
 
           this.$refs.form.resetFields();
+          this.addFormData = {
+            id: "",
+            headline: "", //headline
+            saveTime: "", //saveTime
+            recognitionPercentage: "", //识别大模型
+            path: "",
+          };
           done();
         })
         .catch((_) => {});
@@ -635,10 +623,11 @@ export default {
     //新增数据
     handleAdd() {
       this.addFormData = {
-        title: "", //title
-        time: "", //time
-        identify: "", //识别大模型
-        url: "",
+        id: "",
+        headline: "", //headline
+        saveTime: "", //saveTime
+        recognitionPercentage: "", //识别大模型
+        path: "",
       };
       this.addFormTitle = "新增图片信息";
       this.addFormVisible = true;
@@ -648,7 +637,7 @@ export default {
     handleUpdate() {
       this.addFormTitle = "修改图片信息";
       this.addFormData = Object.assign({}, this.multipleSelection[0]);
-      this.addFormData.newUrl = this.addFormData.url;
+      this.addFormData.newUrl = this.addFormData.path;
       this.isEdit = true;
       this.addFormVisible = true;
     },
@@ -656,36 +645,54 @@ export default {
     handleEdit(index, row) {
       this.addFormTitle = "修改信息";
       this.addFormData = Object.assign({}, row);
-      this.addFormData.newUrl = this.addFormData.url;
+      this.addFormData.newUrl = this.addFormData.path;
       this.addFormVisible = true;
       this.isEdit = true;
     },
-
     //获得数据
     async getList() {
       this.loading = true;
       setTimeout(() => {
         this.loading = false;
       }, 500);
-      this.tableData = this.$store.state.photoList;
+      // 假设 this.queryParams 包含 content, path, startTime, endTime, pageNow, pageSize
+      let params = this.queryParams;
 
-      //   await this.$http.post(
-      //     "/support/AllCustomerByPage",
-      //     this.queryParams
-      //   ).then(res => {
-      // console.log(res)
-      //     if (res.data.code === 200) {
-      //       console.log(res.data.data)
-      //       this.tableData = res.data.data.rowData
-      //       this.totalRow = res.data.data.totalRows
-      //     } else {
-      //       this.$message.error(res.data.message);
-      //     }
-      //   }).catch(res => {
-      //     console.log(res);
-      //     this.$router.push("/error")
-      //   })
+      // 过滤掉空参数，只传递有值的参数
+      let filteredParams = {};
+      for (let key in params) {
+        if (params[key]) {
+          // 仅传递有值的参数
+          filteredParams[key] = params[key];
+        }
+      }
+      // 将参数拼接到 URL 中
+      let query = Object.keys(filteredParams)
+        .map(
+          (key) =>
+            encodeURIComponent(key) +
+            "=" +
+            encodeURIComponent(filteredParams[key])
+        )
+        .join("&");
+
+      await this.$http
+        .get(`/pictures/search?${query}`)
+        .then((res) => {
+          console.log(res);
+          if (res.data.code === 200) {
+            this.tableData = res.data.data.records;
+            this.totalRow = res.data.data.total; // 获取总条数
+          } else {
+            this.$message.error(res.data.message);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$router.push("/error");
+        });
     },
+
     //搜索
     handleQuery() {
       this.getList();
@@ -725,34 +732,48 @@ export default {
     async addPhoto() {
       console.log("新增");
       console.log(this.addFormData);
+      if (
+        this.addFormData.newUrl != undefined &&
+        this.addFormData.newUrl != ""
+      ) {
+        this.addFormData.path = this.addFormData.newUrl;
+      }
+
       this.$refs.form.validate((valid) => {
         if (valid) {
           // 表单验证通过，进行保存操作
           console.log("提交的数据：", this.addFormData);
+
+          const pictureData = {
+            headline: this.addFormData.headline,
+            saveTime: this.addFormData.saveTime,
+            recognitionPercentage: this.addFormData.recognitionPercentage,
+            path: this.addFormData.path,
+          };
+
           // 执行保存逻辑
+          this.$http
+            .post("/pictures/add", pictureData)
+            .then((res) => {
+              if (res.data.code === 200) {
+                this.$message.success(res.data.message);
+                this.addFormVisible = false;
+                this.getList();
+              } else {
+                this.$message.error(
+                  this.addFormData.role.username + "" + res.data.message
+                );
+              }
+            })
+            .catch((res) => {
+              console.log(res);
+              this.$router.push("/error");
+            });
         } else {
           console.log("表单验证失败");
           return false;
         }
       });
-      // await this.$http
-      //   .post("/support/insertCustomer", this.addFormData)
-      //   .then((res) => {
-      //     if (res.data.code === 200) {
-      //       this.$message.success(res.data.message);
-      //       this.addFormVisible = false;
-      //       // this.$refs.person.beforeRemove();
-      //       this.getList();
-      //     } else {
-      //       this.$message.error(
-      //         this.addFormData.role.username + "" + res.data.message
-      //       );
-      //     }
-      //   })
-      //   .catch((res) => {
-      //     console.log(res);
-      //     this.$router.push("/error");
-      //   });
     },
 
     //具体修改，去访问后端
@@ -764,28 +785,38 @@ export default {
         if (valid) {
           // 表单验证通过，进行保存操作
           console.log("提交的数据：", this.addFormData);
+          //删除旧的
+          this.$http
+            .delete("/photo/delete", {
+              params: { fileName: this.addFormData.path },
+            })
+            .then((res) => {
+              console.log(res);
+            });
+
+          this.addFormData.path = this.addFormData.newUrl;
+
           // 执行保存逻辑
+          this.$http
+            .put("pictures/update/" + this.addFormData.id, this.addFormData)
+            .then((res) => {
+              if (res.data.code === 200) {
+                this.$message.success(res.data.message);
+                this.addFormVisible = false;
+                this.getList();
+              } else {
+                this.$message.error(res.data.message);
+              }
+            })
+            .catch((res) => {
+              console.log(res);
+              this.$router.push("/error");
+            });
         } else {
           console.log("表单验证失败");
           return false;
         }
       });
-      // await this.$http
-      //   .post("/support/updateCustomer", this.addFormData)
-      //   .then((res) => {
-      //     if (res.data.code === 200) {
-      //       this.$message.success(res.data.message);
-      //       this.addFormVisible = false;
-      //       // this.$refs.person.beforeRemove();
-      //       this.getList();
-      //     } else {
-      //       this.$message.error(res.data.message);
-      //     }
-      //   })
-      //   .catch((res) => {
-      //     console.log(res);
-      //     this.$router.push("/error");
-      //   });
     },
 
     //删除某一行
@@ -801,9 +832,20 @@ export default {
       }
     },
     //删除某一行
-    async Delete(index, row) {
+    async Delete( row) {
+      console.log(row);
+
+      //删除旧的
+          this.$http
+            .delete("/photo/delete", {
+              params: { fileName: this.addFormData.path },
+            })
+            .then((res) => {
+              console.log(res);
+            });
+            
       await this.$http
-        .post("/support/deleteCustomer", row)
+        .delete("/pictures/delete/"+row.id)
         .then((res) => {
           if (res.data.code === 200) {
             this.$message.success(res.data.message);
@@ -824,8 +866,8 @@ export default {
       this.queryParams.startTime = this.timespan[0];
     },
     handlePhotoError(row) {
-      // 更新 url 为 null，触发视图重新渲染
-      this.$set(row, "url", null);
+      // 更新 path 为 null，触发视图重新渲染
+      this.$set(row, "path", null);
     },
 
     //上传成功修改原本函数
